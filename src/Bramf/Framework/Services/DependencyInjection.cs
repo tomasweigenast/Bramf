@@ -1,6 +1,7 @@
 ﻿using Bramf.App;
 using Bramf.Controllers.Base;
 using Bramf.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -43,6 +44,11 @@ namespace Bramf
         /// Gets the framework exception handler
         /// </summary>
         public static IExceptionHandler ExceptionHandler => Framework.Provider.GetService<IExceptionHandler>();
+
+        /// <summary>
+        /// Gets the Microsoft Configuration model
+        /// </summary>
+        public static IConfiguration MicrosoftConfiguration => Framework.Provider.GetService<IConfiguration>();
 
         /// <summary>
         /// Gets the configuration

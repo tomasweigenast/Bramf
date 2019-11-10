@@ -46,7 +46,7 @@ namespace Bramf
 
             // Inject configuration into services
             var configuration = configurationBuilder.Build();
-            construction.Services.AddSingleton<Microsoft.Extensions.Configuration.IConfiguration>(configuration);
+            construction.Services.AddSingleton<IConfiguration>(configuration);
 
             // Set the construction Configuration
             construction.UseConfiguration(configuration);
@@ -132,6 +132,8 @@ namespace Bramf
             // Chain the construction
             return construction;
         }
+
+        public static FrameworkConstruction AddMicrosoftConfiguration
 
         /// <summary>
         /// Configures a framework construction using the provided configuration
