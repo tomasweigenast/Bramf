@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;net472;netcoreapp3.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>..\..\builds\core\netstandard2.0\Bitture.Bramf.xml</DocumentationFile>
+    <OutputPath>..\..\builds\core</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\Bitture.Bramf.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>2.9.1</Version>
+    <Authors>Tomas Wegenast</Authors>
+    <Company>Bitture</Company>
+    <Product>Bramf</Product>
+    <Description>Useful .NET cross-platform for projects</Description>
+    <Copyright>Copyright 2019</Copyright>
+    <AssemblyVersion>2.9.1</AssemblyVersion>
+    <PackageId>Bitture.Bramf</PackageId>
+    <FileVersion>2.9.1</FileVersion>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://www.bitture.net/</PackageProjectUrl>
+    <RepositoryUrl>https://bitture.visualstudio.com/Bramf</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageLicenseUrl></PackageLicenseUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BLogg.Core" Version="1.0.1" />
+    <PackageReference Include="cfgConfig.Base" Version="1.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="MvvmValidation" Version="3.1.0" />
+    <PackageReference Include="MyLanguages.Core" Version="1.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="System.Runtime.Caching" Version="4.6.0" />
+    <PackageReference Include="System.Security.Permissions" Version="4.6.0" />
+  </ItemGroup>
+
+</Project>
