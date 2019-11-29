@@ -16,15 +16,15 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.9.1</Version>
+    <Version>2.9.2</Version>
     <Authors>Tomas Wegenast</Authors>
     <Company>Bitture</Company>
     <Product>Bramf</Product>
     <Description>Useful .NET cross-platform for projects</Description>
     <Copyright>Copyright 2019</Copyright>
-    <AssemblyVersion>2.9.1</AssemblyVersion>
+    <AssemblyVersion>2.9.2</AssemblyVersion>
     <PackageId>Bitture.Bramf</PackageId>
-    <FileVersion>2.9.1</FileVersion>
+    <FileVersion>2.9.2</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://www.bitture.net/</PackageProjectUrl>
     <RepositoryUrl>https://bitture.visualstudio.com/Bramf</RepositoryUrl>

@@ -133,8 +133,6 @@ namespace Bramf
             return construction;
         }
 
-        public static FrameworkConstruction AddMicrosoftConfiguration
-
         /// <summary>
         /// Configures a framework construction using the provided configuration
         /// </summary>
