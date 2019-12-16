@@ -1,5 +1,6 @@
 ﻿using Bramf.Extensions;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -34,6 +35,23 @@ namespace Bramf.Common
         }
 
         /// <summary>
+        /// Gets a list of embbedded resources under a specific parent folder
+        /// </summary>
+        /// <param name="parent">The parent folder path.</param>
+        public static IEnumerable<Stream> GetResources(string parent)
+        {
+            // Get all the resources name
+            var assembly = Assembly.GetEntryAssembly();
+            string[] resources = assembly.GetManifestResourceNames().Where(x => x.Contains(parent)).ToArray();
+            var list = new List<Stream>();
+
+            foreach (var resource in resources)
+                list.Add(assembly.GetManifestResourceStream(resource));
+
+            return list;
+        }
+
+        /// <summary>
         /// Copies a resource to a disk location
         /// </summary>
         /// <param name="resource">The resource to copy</param>
@@ -46,9 +64,30 @@ namespace Bramf.Common
                 if (File.Exists(path))
                     return false;
 
+            // Copy the resource
             using (var resourceStream = GetResource(resource))
             using (var fs = new FileStream(path, FileMode.Create))
                 resourceStream.CopyTo(fs);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Copies a resource to a disk location
+        /// </summary>
+        /// <param name="resource">The resource stream to copy</param>
+        /// <param name="path">The physical path to copy the file to</param>
+        /// <param name="copyAlways">Indicates if the resource will be copied always, whatever the file exists or not</param>
+        public static bool CopyResource(Stream resource, string path, bool copyAlways = true)
+        {
+            // Ignore if the file already exists
+            if (!copyAlways)
+                if (File.Exists(path))
+                    return false;
+
+            // Copy the resource
+            using (var fs = new FileStream(path, FileMode.Create))
+                resource.CopyTo(fs);
 
             return true;
         }
