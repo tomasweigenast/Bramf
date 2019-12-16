@@ -1,5 +1,4 @@
 ﻿using BLogg.Core.Logging;
-using Bramf.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
