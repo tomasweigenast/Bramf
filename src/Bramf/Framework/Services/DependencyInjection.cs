@@ -1,6 +1,5 @@
 ﻿using Bramf.App;
 using Bramf.Controllers.Base;
-using Bramf.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -51,11 +50,6 @@ namespace Bramf
         public static IConfiguration MicrosoftConfiguration => Framework.Provider.GetService<IConfiguration>();
 
         /// <summary>
-        /// Gets the configuration
-        /// </summary>
-        public static cfgConfig.Core.IConfiguration Configuration => Framework.Provider.GetService<cfgConfig.Core.IConfiguration>();
-
-        /// <summary>
         /// Gets the snackbar controller if it is
         /// </summary>
         public static BaseSnackbarController Snackbar => Framework.Provider.GetService<BaseSnackbarController>();
@@ -64,10 +58,5 @@ namespace Bramf
         /// Gets the application behaviour
         /// </summary>
         public static IAppBehaviour<IAppStorage> App => Framework.Provider.GetService<IAppBehaviour<IAppStorage>>();
-
-        /// <summary>
-        /// Gets the application reusable http request
-        /// </summary>
-        public static IReusableHttpRequest HttpRequestor => Framework.Provider.GetService<IReusableHttpRequest>();
     }
 }

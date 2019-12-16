@@ -133,19 +133,6 @@ namespace Bramf
         }
 
         /// <summary>
-        /// Configures a framework construction using the provided configuration
-        /// </summary>
-        /// <param name="construction">The construction to configure</param>
-        /// <param name="configuration">The configuration to use</param>
-        public static FrameworkConstruction AddConfiguration<TConfiguration>(this FrameworkConstruction construction, TConfiguration configuration)
-            where TConfiguration : cfgConfig.Core.IConfiguration
-        {
-            construction.Services.AddSingleton<cfgConfig.Core.IConfiguration>(configuration);
-
-            return construction;
-        }
-
-        /// <summary>
         /// Adds a logger
         /// </summary>
         public static FrameworkConstruction AddLogger(this FrameworkConstruction construction, Logger logger)
