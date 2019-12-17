@@ -10,13 +10,6 @@ namespace Bramf
     /// The core services that could be available in the Dna Framework
     /// for quick and easy access anywhere in code.
     /// </summary>
-    /// <example>
-    /// <code>
-    ///     using static Dna.FrameworkDI
-    ///     
-    ///     Logger.Log(Configuration["something"]);
-    /// </code>
-    /// </example>
     public static class FrameworkDI
     {
         /// <summary>
@@ -58,5 +51,10 @@ namespace Bramf
         /// Gets the application behaviour
         /// </summary>
         public static IAppBehaviour<IAppStorage> App => Framework.Provider.GetService<IAppBehaviour<IAppStorage>>();
+
+        /// <summary>
+        /// Gets the <see cref="IConfigurationRoot"/> injected
+        /// </summary>
+        public static IConfigurationRoot Configuration => Framework.Provider.GetService<IConfigurationRoot>();
     }
 }

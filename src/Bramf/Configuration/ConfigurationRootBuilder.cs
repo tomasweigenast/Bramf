@@ -10,7 +10,7 @@ namespace Bramf.Configuration
     /// <summary>
     /// Used to build <see cref="ConfigurationRoot"/>s
     /// </summary>
-    public class ConfigurationBuilder
+    public class ConfigurationRootBuilder
     {
         #region Members
 
@@ -26,7 +26,7 @@ namespace Bramf.Configuration
         /// Default constructor
         /// </summary>
         /// <param name="basePath">The base path where the configuration will save the implementations.</param>
-        public ConfigurationBuilder(string basePath)
+        public ConfigurationRootBuilder(string basePath)
         {
             mBasePath = basePath;
             mOptions = new ConfigurationOptions();
@@ -41,7 +41,7 @@ namespace Bramf.Configuration
         /// Configures the <see cref="ConfigurationRoot"/>
         /// </summary>
         /// <param name="configureAction">The configure action.</param>
-        public ConfigurationBuilder Configure(Action<ConfigurationOptions> configureAction)
+        public ConfigurationRootBuilder Configure(Action<ConfigurationOptions> configureAction)
         {
             configureAction.Invoke(mOptions);
 
@@ -52,7 +52,7 @@ namespace Bramf.Configuration
         /// Adds a class as a provider
         /// </summary>
         /// <typeparam name="TConfig">The configuration type.</typeparam>
-        public ConfigurationBuilder AddProvider<TConfig>() where TConfig : class, new()
+        public ConfigurationRootBuilder AddProvider<TConfig>() where TConfig : class, new()
         {
             Type configType = typeof(TConfig);
 
@@ -124,7 +124,7 @@ namespace Bramf.Configuration
         /// </summary>
         /// <typeparam name="TConfig">The configuration type.</typeparam>
         /// <param name="configure">The configure action.</param>
-        public ConfigurationBuilder AddProvider<TConfig>(Action<ConfigurationProviderOptions> configure) where TConfig : class, new()
+        public ConfigurationRootBuilder AddProvider<TConfig>(Action<ConfigurationProviderOptions> configure) where TConfig : class, new()
         {
             Type configType = typeof(TConfig);
 

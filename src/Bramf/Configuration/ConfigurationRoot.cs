@@ -1,4 +1,5 @@
-﻿using Bramf.Encryptation;
+﻿using Bramf.Configuration.Abstractions;
+using Bramf.Encryptation;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Bramf.Configuration
     /// <summary>
     /// Represents a configuration root
     /// </summary>
-    public class ConfigurationRoot
+    public class ConfigurationRoot : IConfigurationRoot
     {
         #region Members
 

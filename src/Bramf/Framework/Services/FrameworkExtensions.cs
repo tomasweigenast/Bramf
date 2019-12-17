@@ -1,4 +1,5 @@
 ﻿using BLogg.Core.Logging;
+using Bramf.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -12,10 +13,8 @@ namespace Bramf
     /// </summary>
     public static class FrameworkExtensions
     {
-        #region Configuration
-
         /// <summary>
-        /// Configures a framework construction in the default way
+        /// Configures and injects a default Microsoft configuration
         /// </summary>
         /// <param name="construction">The construction to configure</param>
         /// <param name="configure">The custom configuration action</param>
@@ -55,11 +54,11 @@ namespace Bramf
         }
 
         /// <summary>
-        /// Configures a framework construction using the provided configuration
+        /// Configures and injectes a Microsoft configuration
         /// </summary>
         /// <param name="construction">The construction to configure</param>
         /// <param name="configuration">The configuration</param>
-        public static FrameworkConstruction AddConfiguration(this FrameworkConstruction construction, Microsoft.Extensions.Configuration.IConfiguration configuration)
+        public static FrameworkConstruction AddConfiguration(this FrameworkConstruction construction, IConfiguration configuration)
         {
             // Add specific configuration
             construction.UseConfiguration(configuration);
@@ -71,7 +70,20 @@ namespace Bramf
             return construction;
         }
 
-        #endregion
+        /// <summary>
+        /// Configures and inject a <see cref="IConfigurationRoot"/>
+        /// </summary>
+        /// <param name="construction">The construction to configure.</param>
+        /// <param name="factory">The action used to configure.</param>
+        public static FrameworkConstruction AddConfiguration(this FrameworkConstruction construction, Func<ConfigurationRootBuilder> factory)
+        {
+            // Get configuration builder
+            var builder = factory.Invoke();
+
+            construction.Services.AddSingleton(builder.Build());
+
+            return construction;
+        }
 
         /// <summary>
         /// Injects all of the default services used by Dna Framework for a quicker and cleaner setup

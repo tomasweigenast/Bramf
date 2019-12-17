@@ -5,7 +5,7 @@ using System;
 namespace Bramf
 {
     /// <summary>
-    /// The construction information when starting up and configuring Dna.Framework
+    /// The construction information when starting up and configuring Bramf
     /// </summary>
     public class FrameworkConstruction
     {
