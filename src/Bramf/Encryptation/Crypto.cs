@@ -46,7 +46,7 @@ namespace Bramf.Encryptation
                 using(var crypto = new CryptoStream(ms, encryptator.CreateEncryptor(), CryptoStreamMode.Write))
                 {
                     // Write to the crypto stream
-                    crypto.Write(plainText);
+                    crypto.Write(plainText, 0, plainText.Length);
                     crypto.FlushFinalBlock();
 
                     // Get encrypted data with IV
@@ -128,7 +128,7 @@ namespace Bramf.Encryptation
                 using (var crypto = new CryptoStream(ms, encryptator.CreateDecryptor(), CryptoStreamMode.Write))
                 {
                     // Write to the stream
-                    crypto.Write(cipherText);
+                    crypto.Write(cipherText, 0, cipherText.Length);
                     crypto.FlushFinalBlock();
 
                     // Get plain text

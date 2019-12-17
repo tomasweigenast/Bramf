@@ -36,7 +36,8 @@ namespace Bramf.Configuration
         /// Returns a configuration provider instance
         /// </summary>
         /// <typeparam name="TConfig">The configuration provider type.</typeparam>
-        public TConfig Get<TConfig>() where TConfig : class, new()
+        public TConfig Get<TConfig>()
+            where TConfig : class, new()
         {
             // Try get provider
             ConfigurationProvider provider = mProviders.FirstOrDefault(x => x.Type == typeof(TConfig));
@@ -55,6 +56,7 @@ namespace Bramf.Configuration
         /// <typeparam name="TConfig">The configuration type to edit.</typeparam>
         /// <param name="editAction">The action used to edit.</param>
         public void BeginEdit<TConfig>(Action<TConfig> editAction)
+            where TConfig : class, new()
         {
             // Try get provider
             ConfigurationProvider provider = mProviders.FirstOrDefault(x => x.Type == typeof(TConfig));
