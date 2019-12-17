@@ -16,7 +16,7 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.9.8</Version>
+    <Version>2.9.12</Version>
     <Authors>Tomas Wegenast</Authors>
     <Company>Bitture</Company>
     <Product>Bramf</Product>
@@ -41,6 +41,7 @@
 
   <ItemGroup>
     <PackageReference Include="BLogg.Core" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.0" />

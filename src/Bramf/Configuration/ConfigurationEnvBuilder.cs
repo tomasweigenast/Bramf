@@ -55,7 +55,7 @@ namespace Bramf.Configuration
         /// <typeparam name="TConfig">The configuration type.</typeparam>
         public ConfigurationEnvBuilder AddProvider<TConfig>() where TConfig : class, new()
         {
-            mAddProvider<TConfig>(null);
+            mAddProvider<TConfig>(new ConfigurationProviderOptions());
 
             return this;
         }
@@ -105,52 +105,8 @@ namespace Bramf.Configuration
             // Get provider file path
             string filePath = Path.Combine(mBasePath, $"{attribute.Name ?? configType.Name}{mOptions.FileExtension}");
 
-            // Get options
-            TProvider instance = null;
-
-            // Create the file if it does not exists
-            using(var fs = new FileStream(filePath, FileMode.OpenOrCreate)) { }
-
-            // Read the file
-            byte[] fileContent = File.ReadAllBytes(filePath);
-            string deserialized = null;
-
-            // If there is data to deserialize
-            if(fileContent.Length > 0)
-            {
-                // Decrypt if its encrypted
-                if (options.Encrypt)
-                    using (var crypto = new Crypto(@"wF~b_Q,SWzwd2+/k]x)XGd_'j<g&ygcJ&yMLeK77W~[@#jtcHd9?z86t$mK5-fCHF>us[d3:6XJYi[9^"))
-                        deserialized = crypto.DecryptData(fileContent, EncryptationMode.Bytes);
-
-                // Otherwise, just encode
-                else
-                    deserialized = Encoding.UTF8.GetString(fileContent);
-
-                // Deserialize it
-                instance = JsonConvert.DeserializeObject<TProvider>(deserialized);
-            }
-            else
-            {
-                // If there is no data, create a new instance
-                instance = new TProvider();
-            }
-
-            // Write to file
-            string serialized = JsonConvert.SerializeObject(instance, Formatting.Indented); // Serialize the instance
-            byte[] encrypted = null;
-
-            // Should encrypt?
-            if (options.Encrypt)
-                using (var crypto = new Crypto(@"wF~b_Q,SWzwd2+/k]x)XGd_'j<g&ygcJ&yMLeK77W~[@#jtcHd9?z86t$mK5-fCHF>us[d3:6XJYi[9^"))
-                    encrypted = (byte[])crypto.EncryptData(serialized, EncryptationMode.Bytes);
-
-            // Write to file
-            if (encrypted == null) File.WriteAllText(filePath, serialized);
-            else File.WriteAllBytes(filePath, encrypted);
-
             // Create provider
-            ConfigurationProvider provider = new ConfigurationProvider(filePath, configType, instance, options);
+            ConfigurationProvider provider = new ConfigurationProvider(filePath, configType, options);
 
             // Add provider
             mProviders.Add(provider);

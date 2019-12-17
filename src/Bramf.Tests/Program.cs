@@ -1,6 +1,5 @@
 ﻿using Bramf.Configuration;
 using System;
-using System.IO;
 
 namespace Bramf.Tests
 {
@@ -10,12 +9,19 @@ namespace Bramf.Tests
         {
             ConfigurationEnvironment configuration = new ConfigurationEnvBuilder(Environment.GetFolderPath(Environment.SpecialFolder.Desktop))
                 .AddProvider<Entity>()
-                .AddProvider<EntityEncrypted>(x => x.Encrypt = true)
+                .AddProvider<EntityEncrypted>(x =>
+                {
+                    x.Encrypt = true;
+                    x.Load = false;
+                })
                 .Build();
 
-            var encrypted = configuration.Get<EntityEncrypted>();
-            encrypted.Id = "Hola mundo";
-            configuration.Save();
+            Console.WriteLine($"Value: {configuration.Get<EntityEncrypted>().Id}");
+
+            configuration.BeginEdit<EntityEncrypted>(x =>
+            {
+                x.Id = "hello world";
+            });
 
             Console.WriteLine($"Value: {configuration.Get<EntityEncrypted>().Id}");
 

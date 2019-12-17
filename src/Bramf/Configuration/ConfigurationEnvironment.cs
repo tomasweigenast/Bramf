@@ -46,7 +46,31 @@ namespace Bramf.Configuration
                 throw new ArgumentException($"Provider of type '{typeof(TConfig).ToString()}' not found.");
 
             // Return instance
-            return (TConfig)provider.Instance;
+            return (TConfig)provider.GetInstance();
+        }
+        
+        /// <summary>
+        /// Edits a configuration without loading it to memory
+        /// </summary>
+        /// <typeparam name="TConfig">The configuration type to edit.</typeparam>
+        /// <param name="editAction">The action used to edit.</param>
+        public void BeginEdit<TConfig>(Action<TConfig> editAction)
+        {
+            // Try get provider
+            ConfigurationProvider provider = mProviders.FirstOrDefault(x => x.Type == typeof(TConfig));
+
+            // Not found
+            if (provider == null)
+                throw new ArgumentException($"Provider of type '{typeof(TConfig).ToString()}' not found.");
+
+            // Get a provider instance
+            TConfig initialValue = (TConfig)provider.GetInstance();
+
+            // Edit
+            editAction.Invoke(initialValue);
+
+            // Save to file
+            SaveProvider(provider, initialValue);
         }
 
         /// <summary>
@@ -62,16 +86,23 @@ namespace Bramf.Configuration
 
         #region Helper Methods
 
-        private void SaveProvider(ConfigurationProvider provider)
+        private void SaveProvider(ConfigurationProvider provider, object newValue = null)
         {
-            // Write to file
-            string serialized = JsonConvert.SerializeObject(provider.Instance, Formatting.Indented); // Serialize the instance
+            // Ignore if there is no instnace
+            if (provider.Instance == null && newValue == null)
+                return;
+
+            // Get value
+            if (newValue == null)
+                newValue = provider.Instance;
+
+            // Serialize
+            string serialized = JsonConvert.SerializeObject(newValue, Formatting.Indented); // Serialize the instance
             byte[] encrypted = null;
 
             // Should encrypt?
             if (provider.Options.Encrypt)
-                using (var crypto = new Crypto(@"wF~b_Q,SWzwd2+/k]x)XGd_'j<g&ygcJ&yMLeK77W~[@#jtcHd9?z86t$mK5-fCHF>us[d3:6XJYi[9^"))
-                    encrypted = (byte[])crypto.EncryptData(serialized, EncryptationMode.Bytes);
+                encrypted = Crypto.EncryptString(serialized, @"wF~b_Q,SWzwd2+/k]x)XGd_'j<g&ygcJ&yMLeK77W~[@#jtcHd9?z86t$mK5-fCHF>us[d3:6XJYi[9^");
 
             // Write to file
             if (encrypted == null) File.WriteAllText(provider.FilePath, serialized);
