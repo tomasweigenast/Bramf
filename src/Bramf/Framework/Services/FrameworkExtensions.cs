@@ -81,7 +81,7 @@ namespace Bramf
             // Get configuration builder
             var builder = factory.Invoke();
 
-            construction.Services.AddSingleton(builder.Build());
+            construction.Services.AddSingleton<IConfigurationEnvironment>(builder.Build());
 
             return construction;
         }
