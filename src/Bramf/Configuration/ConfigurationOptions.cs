@@ -1,7 +1,7 @@
 ﻿namespace Bramf.Configuration
 {
     /// <summary>
-    /// Options for a <see cref="ConfigurationRoot"/>
+    /// Options for a <see cref="ConfigurationEnvironment"/>
     /// </summary>
     public class ConfigurationOptions
     {

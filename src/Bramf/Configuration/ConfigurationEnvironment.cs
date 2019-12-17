@@ -11,7 +11,7 @@ namespace Bramf.Configuration
     /// <summary>
     /// Represents a configuration root
     /// </summary>
-    public class ConfigurationRoot : IConfigurationRoot
+    public class ConfigurationEnvironment : IConfigurationEnvironment
     {
         #region Members
 
@@ -22,7 +22,7 @@ namespace Bramf.Configuration
 
         #region Constructor
 
-        internal ConfigurationRoot(IEnumerable<ConfigurationProvider> providers, ConfigurationOptions options)
+        internal ConfigurationEnvironment(IEnumerable<ConfigurationProvider> providers, ConfigurationOptions options)
         {
             mProviders = providers;
             mOptions = options;
@@ -71,7 +71,7 @@ namespace Bramf.Configuration
             // Should encrypt?
             if (provider.Options.Encrypt)
                 using (var crypto = new Crypto(@"wF~b_Q,SWzwd2+/k]x)XGd_'j<g&ygcJ&yMLeK77W~[@#jtcHd9?z86t$mK5-fCHF>us[d3:6XJYi[9^"))
-                    encrypted = (byte[])crypto.EncryptString(serialized, EncryptationMode.Bytes);
+                    encrypted = (byte[])crypto.EncryptData(serialized, EncryptationMode.Bytes);
 
             // Write to file
             if (encrypted == null) File.WriteAllText(provider.FilePath, serialized);

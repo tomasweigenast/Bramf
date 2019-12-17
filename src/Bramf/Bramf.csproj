@@ -16,7 +16,7 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.9.6</Version>
+    <Version>2.9.7</Version>
     <Authors>Tomas Wegenast</Authors>
     <Company>Bitture</Company>
     <Product>Bramf</Product>

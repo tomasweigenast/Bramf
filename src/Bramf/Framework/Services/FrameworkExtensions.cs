@@ -1,5 +1,6 @@
 ﻿using BLogg.Core.Logging;
 using Bramf.Configuration;
+using Bramf.Configuration.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -71,11 +72,11 @@ namespace Bramf
         }
 
         /// <summary>
-        /// Configures and inject a <see cref="IConfigurationRoot"/>
+        /// Configures and inject a <see cref="IConfigurationEnvironment"/>
         /// </summary>
         /// <param name="construction">The construction to configure.</param>
         /// <param name="factory">The action used to configure.</param>
-        public static FrameworkConstruction AddConfiguration(this FrameworkConstruction construction, Func<ConfigurationRootBuilder> factory)
+        public static FrameworkConstruction AddConfiguration(this FrameworkConstruction construction, Func<ConfigurationEnvBuilder> factory)
         {
             // Get configuration builder
             var builder = factory.Invoke();

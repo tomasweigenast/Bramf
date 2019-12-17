@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a configuration
     /// </summary>
-    public interface IConfigurationRoot
+    public interface IConfigurationEnvironment
     {
         /// <summary>
         /// Returns a configuration

@@ -186,7 +186,7 @@ namespace Bramf.Encryptation
         /// </summary>
         /// <param name="plainText">The text to encrypt</param>
         /// <param name="returnEncryptationMode">The way the encrypted string is returned</param>
-        public object EncryptString(string plainText, EncryptationMode returnEncryptationMode = EncryptationMode.Base64)
+        public object EncryptData(string plainText, EncryptationMode returnEncryptationMode = EncryptationMode.Base64)
         {
             // If plainText is empty, throw exception
             if (plainText.IsNullOrWhitespace())
@@ -249,7 +249,7 @@ namespace Bramf.Encryptation
         /// </summary>
         /// <param name="cipherData">The data to decrypt</param>
         /// <param name="encryptationMode">The way the encrypted data is provided</param>
-        public string DecryptString(object cipherData, EncryptationMode encryptationMode)
+        public string DecryptData(object cipherData, EncryptationMode encryptationMode)
         {
             // If there is no cipher data, throw exception
             if (cipherData == null)

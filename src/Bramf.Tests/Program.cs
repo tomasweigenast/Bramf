@@ -8,7 +8,7 @@ namespace Bramf.Tests
     {
         static void Main(string[] args)
         {
-            ConfigurationRoot configuration = new ConfigurationRootBuilder(Environment.GetFolderPath(Environment.SpecialFolder.Desktop))
+            ConfigurationEnvironment configuration = new ConfigurationEnvBuilder(Environment.GetFolderPath(Environment.SpecialFolder.Desktop))
                 .AddProvider<Entity>()
                 .AddProvider<EntityEncrypted>(x => x.Encrypt = true)
                 .Build();
