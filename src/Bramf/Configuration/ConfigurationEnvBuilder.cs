@@ -108,24 +108,33 @@ namespace Bramf.Configuration
             // Get options
             TProvider instance = null;
 
+            // Create the file if it does not exists
+            using(var fs = new FileStream(filePath, FileMode.OpenOrCreate)) { }
+
             // Read the file
             byte[] fileContent = File.ReadAllBytes(filePath);
             string deserialized = null;
 
-            // Decrypt if its encrypted
-            if (options.Encrypt)
-                using (var crypto = new Crypto(@"wF~b_Q,SWzwd2+/k]x)XGd_'j<g&ygcJ&yMLeK77W~[@#jtcHd9?z86t$mK5-fCHF>us[d3:6XJYi[9^"))
-                    deserialized = crypto.DecryptData(fileContent, EncryptationMode.Bytes);
+            // If there is data to deserialize
+            if(fileContent.Length > 0)
+            {
+                // Decrypt if its encrypted
+                if (options.Encrypt)
+                    using (var crypto = new Crypto(@"wF~b_Q,SWzwd2+/k]x)XGd_'j<g&ygcJ&yMLeK77W~[@#jtcHd9?z86t$mK5-fCHF>us[d3:6XJYi[9^"))
+                        deserialized = crypto.DecryptData(fileContent, EncryptationMode.Bytes);
 
-            // Otherwise, just encode
+                // Otherwise, just encode
+                else
+                    deserialized = Encoding.UTF8.GetString(fileContent);
+
+                // Deserialize it
+                instance = JsonConvert.DeserializeObject<TProvider>(deserialized);
+            }
             else
-                deserialized = Encoding.UTF8.GetString(fileContent);
-
-            // Deserialize it
-            instance = JsonConvert.DeserializeObject<TProvider>(deserialized);
-
-            // If there is no data, create a new instance
-            instance = new TProvider();
+            {
+                // If there is no data, create a new instance
+                instance = new TProvider();
+            }
 
             // Write to file
             string serialized = JsonConvert.SerializeObject(instance, Formatting.Indented); // Serialize the instance
