@@ -16,21 +16,30 @@
     <Deterministic>False</Deterministic>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Tomas Wegenast</Authors>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Company>Bitture</Company>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Company>Tomas Wegenast</Company>
     <Product>Bramf for AspNet</Product>
     <Description>AspNet Core helpers to implement Bramf framework easily</Description>
     <PackageLicenseUrl />
-    <PackageProjectUrl>https://www.bitture.net/</PackageProjectUrl>
-    <RepositoryUrl>https://bitture.visualstudio.com/Bramf</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Tomi-15/Bramf</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Tomi-15/Bramf</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Version>1.5.3</Version>
-    <AssemblyVersion>1.5.3.0</AssemblyVersion>
+    <Version>1.5.4</Version>
+    <AssemblyVersion>1.5.4.0</AssemblyVersion>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Copyright />
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Bitture.Bramf" Version="2.9.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -16,18 +16,18 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.9.13</Version>
+    <Version>2.9.14</Version>
     <Authors>Tomas Wegenast</Authors>
-    <Company>Bitture</Company>
+    <Company>Tomas Wegenast</Company>
     <Product>Bramf</Product>
     <Description>Useful .NET cross-platform for projects</Description>
     <Copyright>Copyright 2019</Copyright>
-    <AssemblyVersion>2.9.2</AssemblyVersion>
-    <PackageId>Bitture.Bramf</PackageId>
-    <FileVersion>2.9.2</FileVersion>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://www.bitture.net/</PackageProjectUrl>
-    <RepositoryUrl>https://bitture.visualstudio.com/Bramf</RepositoryUrl>
+    <AssemblyVersion>2.9.14</AssemblyVersion>
+    <PackageId>Bramf</PackageId>
+    <FileVersion>2.9.14</FileVersion>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/Tomi-15/Bramf</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Tomi-15/Bramf</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageLicenseUrl></PackageLicenseUrl>
   </PropertyGroup>
@@ -37,6 +37,7 @@
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageLicenseExpression></PackageLicenseExpression>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -56,6 +57,13 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Runtime.Caching" Version="4.7.0" />
     <PackageReference Include="System.Security.Permissions" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
