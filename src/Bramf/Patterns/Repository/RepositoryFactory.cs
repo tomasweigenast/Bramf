@@ -58,7 +58,7 @@ namespace Bramf.Patterns.Repository
             try
             {
                 // Get repository definition
-                Type repositoryDefinition = mRepositories.Select(x => x.Value).Where(x => x.GetGenericArguments().Any(x => x == typeof(TEntity))).FirstOrDefault();
+                Type repositoryDefinition = mRepositories.Select(x => x.Value).Where(x => x.GetGenericArguments().Any(b => b == typeof(TEntity))).FirstOrDefault();
 
                 // Get repository from services
                 object repository = mServices.GetService(repositoryDefinition);

@@ -17,7 +17,8 @@ namespace Bramf.IO
         /// <param name="path">The path to the file or directory to check</param>
         public static bool IsFile(string path)
         {
-            Validator.ValidateString(path, nameof(path));
+            if (path.IsNullOrWhitespace())
+                throw new ArgumentNullException(nameof(path));
 
             path = path.Trim();
 

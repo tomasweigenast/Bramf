@@ -10,7 +10,7 @@ namespace Bramf.Patterns.Repository
         /// <summary>
         /// The primary key of the entity
         /// </summary>
-        public object Id { get; set; }
+        object Id { get; set; }
     }
 
     /// <summary>
@@ -34,7 +34,6 @@ namespace Bramf.Patterns.Repository
         /// The primary key
         /// </summary>
         public string Id { get; set; }
-
         object IEntity.Id { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     }
 }
