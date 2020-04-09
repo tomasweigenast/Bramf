@@ -34,13 +34,17 @@ namespace Bramf.Patterns.Repository.Mongo
         /// <summary>
         /// Creates a new <see cref="MongoRepository{TEntity}"/>
         /// </summary>
-        public MongoRepository(string databaseName, MongoRepositoryOptions options)
+        public MongoRepository(MongoRepositoryOptions options)
         {
-            if (databaseName.IsNullOrWhitespace()) throw new ArgumentNullException(nameof(databaseName));
+            if (options.DatabaseName.IsNullOrWhitespace()) throw new ArgumentNullException(nameof(options.DatabaseName));
             if (options == null) throw new ArgumentNullException(nameof(options));
+            if (options.RepositoryName.IsNullOrWhitespace())
+                Name = typeof(TEntity).Name;
+            else
+                Name = options.RepositoryName;
 
             var client = new MongoClient(options.ConnectionString);
-            var database = client.GetDatabase(databaseName);
+            var database = client.GetDatabase(options.DatabaseName);
             mPendingOperations = new List<IOperation>();
 
             // Get the collection

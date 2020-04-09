@@ -1,4 +1,6 @@
-﻿using Bramf.Operation;
+﻿using Bramf.Extensions;
+using Bramf.Operation;
+using Bramf.Patterns.Repository.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,7 @@ namespace Bramf.Patterns.Repository
     /// <typeparam name="TContext">The context type to use.</typeparam>
     public class EFRepository<TEntity, TContext> : IRepository<TEntity>
         where TContext : DbContext
-        where TEntity : class
+        where TEntity : class, IEntity
     {
         #region Properties
 
@@ -33,9 +35,16 @@ namespace Bramf.Patterns.Repository
         /// <summary>
         /// Creates a new <see cref="EFRepository{TEntity, TContext}"/>
         /// </summary>
-        /// <param name="context">The context instance to use.</param>
-        public EFRepository(TContext context)
+        /// <param name="context">The context must be filled up with dependency injection.</param>
+        /// <param name="options">The repository options.</param>
+        public EFRepository(TContext context, EFRepositoryOptions options)
         {
+            if (options.Name.IsNullOrWhitespace())
+                Name = typeof(TEntity).Name;
+            else
+                Name = options.Name;
+
+            // Instantiate context
             mContext = context;
 
             if (!ExistsDbSet())
@@ -105,6 +114,15 @@ namespace Bramf.Patterns.Repository
                 return false;
 
             return true;
+        }
+
+        private TContext InstantiateContext()
+        {
+            var parameterlessConstructor = typeof(TContext).GetConstructor(new Type[] { });
+            if (parameterlessConstructor == null)
+                throw new ArgumentException($"A default context can only be created if the context type '{typeof(TContext)}' has a parameterless constructor.");
+
+            return Activator.CreateInstance<TContext>();
         }
 
         #endregion

@@ -11,17 +11,21 @@ namespace Bramf.Patterns.Repository
     {
         #region Members
 
-        private IList<IRepository> mRepositories;
-        private bool mDisposed;
+        private IDictionary<string, Type> mRepositories;
+        private IServiceProvider mServices;
 
         #endregion
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public RepositoryFactory(IEnumerable<IRepository> repositories)
+        public RepositoryFactory(IServiceProvider services, IEnumerable<IRepository> repositories)
         {
-            mRepositories = new List<IRepository>(repositories);
+            mServices = services;
+            mRepositories = new Dictionary<string, Type>();
+
+            foreach (IRepository repository in repositories)
+                mRepositories.Add(repository.Name, repository.GetType());
         }
 
         #region Methods
@@ -30,54 +34,46 @@ namespace Bramf.Patterns.Repository
         public IRepository<TEntity> Load<TEntity>(string name)
             where TEntity : IEntity
         {
-            throwExceptionIfDisposed();
+            if(!mRepositories.ContainsKey(name))
+                throw new ArgumentException($"Repository named '{name}' not found.");
 
-            IRepository repository = mRepositories.FirstOrDefault(x => x.Name == name);
+            // Get repository definition
+            Type repositoryDefinition = mRepositories[name];
 
-            if (repository != null)
-                if (repository is IRepository<TEntity> parsed)
-                    return parsed;
-                else
-                    throw new ArgumentException($"Repository named '{name}' found. But its type is valid.");
+            // Get repository from services
+            object repository = mServices.GetService(repositoryDefinition);
 
-            throw new ArgumentException($"Repository named '{name}' not found.");
+            // Not valid repository type
+            if(repository == null)
+                throw new ArgumentException($"Repository named '{name}' found but its type is not valid.");
+
+            // Cast and return
+            return (IRepository<TEntity>)repository;
         }
 
         /// <inheritdoc/>
         public IRepository<TEntity> Load<TEntity>()
             where TEntity : IEntity
         {
-            throwExceptionIfDisposed();
+            try
+            {
+                // Get repository definition
+                Type repositoryDefinition = mRepositories.Select(x => x.Value).Where(x => x.GetGenericArguments().Any(x => x == typeof(TEntity))).FirstOrDefault();
 
-            IRepository repository = mRepositories.FirstOrDefault(x => x.GetType() == typeof(IRepository<TEntity>));
+                // Get repository from services
+                object repository = mServices.GetService(repositoryDefinition);
 
-            if (repository == null)
-                throw new ArgumentException($"Repository of type {typeof(TEntity)} not found.");
+                // Not valid repository type
+                if (repository == null)
+                    throw new ArgumentException($"Repository with store type '{typeof(TEntity)}' not found.");
 
-            return repository as IRepository<TEntity>;
-        }
-
-        /// <summary>
-        /// Disposes all the repository implementations
-        /// </summary>
-        public void Dispose()
-        {
-            throwExceptionIfDisposed();
-
-            foreach(IRepository repository in mRepositories)
-                repository.Dispose();
-
-            mRepositories = null;
-        }
-
-        #endregion
-
-        #region Helper Methods
-
-        private void throwExceptionIfDisposed()
-        {
-            if (mDisposed)
-                throw new ObjectDisposedException("Repository factory is disposed.");
+                // Cast and return
+                return (IRepository<TEntity>)repository;
+            }
+            catch
+            {
+                throw new ArgumentException($"Repository with store type '{typeof(TEntity)}' not found.");
+            }
         }
 
         #endregion

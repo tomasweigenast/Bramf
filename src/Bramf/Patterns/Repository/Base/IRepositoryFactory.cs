@@ -5,7 +5,7 @@ namespace Bramf.Patterns.Repository
     /// <summary>
     /// Factory used to create and retrieve <see cref="IRepository{TEntity}"/> instances
     /// </summary>
-    public interface IRepositoryFactory : IDisposable
+    public interface IRepositoryFactory
     {
         /// <summary>
         /// Returns a repository by its name

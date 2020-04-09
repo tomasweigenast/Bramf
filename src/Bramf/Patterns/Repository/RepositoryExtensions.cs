@@ -1,4 +1,7 @@
 ﻿using Bramf.Patterns.Repository.Base;
+using Bramf.Patterns.Repository.EntityFramework;
+using Bramf.Patterns.Repository.Mongo;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -22,7 +25,7 @@ namespace Bramf.Patterns.Repository
             RepositoryBuilder builder = new RepositoryBuilder(services);
             setupAction.Invoke(builder);
 
-            services.AddScoped<IRepositoryFactory>((factory) => new RepositoryFactory(builder.GetRepositories()));
+            services.AddSingleton<IRepositoryFactory>((factory) => new RepositoryFactory(services.BuildServiceProvider(), builder.GetRepositories()));
 
             return services;
         }
@@ -34,7 +37,8 @@ namespace Bramf.Patterns.Repository
     public class RepositoryBuilder
     {
         private IList<IRepository> mRepositories;
-        private IServiceCollection mServices;
+
+        internal IServiceCollection Services { get; }
 
         /// <summary>
         /// Default constructor
@@ -42,23 +46,12 @@ namespace Bramf.Patterns.Repository
         public RepositoryBuilder(IServiceCollection services)
         {
             mRepositories = new List<IRepository>();
-            mServices = services;
+            Services = services;
         }
 
-        /// <summary>
-        /// Adds a new repository.
-        /// If the repository type passed contains at least two constructors, the parameterless one always
-        /// will be called first. So, if you want to pass 
-        /// </summary>
-        /// <typeparam name="TRepository">The repository type to create.</typeparam>
-        /// <param name="name">The name of the repository.</param>
-        /// <param name="options">The options to configure the repository.</param>
-        public RepositoryBuilder Implement<TRepository>(string name, IRepositoryOptions options) 
+        /*public RepositoryBuilder Implement<TRepository>(IRepositoryOptions options) 
             where TRepository : IRepository
         {
-            if (mRepositories.Any(x => x.Name == name))
-                throw new ArgumentException($"Already exists a repository named '{name}'.");
-
             TRepository repositoryInstance;
             Type repositoryType = typeof(TRepository);
 
@@ -83,16 +76,11 @@ namespace Bramf.Patterns.Repository
             {
                 // Get the constructor
                 ConstructorInfo constructor = constructors.Single();
-                var parameters = constructor.GetParameters();
-
-                // If there are no just 2 parameters
-                if (parameters.Length != 2)
-                    throw new ArgumentException($"Cannot instantiate repository of type '{repositoryType}' because its constructor does not contains exactly 2 parameters.");
 
                 // Try to call the constructor with the given parameters
                 try
                 {
-                    repositoryInstance = (TRepository)constructor.Invoke(new object[] { name, options });
+                    repositoryInstance = (TRepository)constructor.Invoke(new[] { options });
                 }
                 catch
                 {
@@ -111,15 +99,126 @@ namespace Bramf.Patterns.Repository
             Type baseType = typeof(IRepository).MakeGenericType(entityType);
 
             // Inject service
-            mServices.AddScoped(baseType, typeof(TRepository));
+            Services.AddScoped(baseType, typeof(TRepository));
 
             // Add repository to list
             mRepositories.Add(repositoryInstance);
                 
             return this;
+        }*/
+
+        /// <summary>
+        /// Adds a new repository.
+        /// If the repository type passed contains at least two constructors, the parameterless one always
+        /// will be called first. So, if you want to pass 
+        /// </summary>
+        /// <typeparam name="TRepository">The repository type to create.</typeparam>
+        /// <typeparam name="TRepositoryOptions">The options to configure the repository.</typeparam>
+        /// <param name="options">The repository options to configure it.</param>
+        public RepositoryBuilder Implement<TRepository, TRepositoryOptions>(TRepositoryOptions options)
+            where TRepositoryOptions : class, IRepositoryOptions
+        {
+            Type repositoryType = typeof(TRepository);
+
+            // Inject repository options
+            Services.AddSingleton(options);
+
+            // Get the generic argument of TRepository
+            Type entityType = repositoryType.GetGenericArguments()?.FirstOrDefault();
+
+            // There is no generic arguments
+            if (entityType == null)
+                throw new ArgumentException($"Repository of type '{repositoryType}' cannot be added because it does not contains generic arguments.");
+
+            // Make IRepository type with the passed generic argument
+            Type baseType = typeof(IRepository).MakeGenericType(entityType);
+
+            // Add the repository as scoped instance
+            Services.AddScoped(baseType, (factory) =>
+            {
+                // Get repository options
+                TRepositoryOptions repositoryOptions = factory.GetRequiredService<TRepositoryOptions>();
+
+                // Get repository constructors
+                var constructors = repositoryType.GetConstructors();
+
+                // If there are no constructors, call the parameterless one
+                if (constructors.Length <= 0)
+                    return Activator.CreateInstance<TRepository>();
+
+                // If there are more than 1 constructor..
+                else if (constructors.Length > 1)
+                    if (constructors.Any(x => x.GetParameters().Length == 0)) // Check for parameterless one
+                        return Activator.CreateInstance<TRepository>(); // If exists, call it
+
+                    // Otherwise throw an exception
+                    else
+                        throw new ArgumentException($"Cannot instantiate repository of type '{repositoryType}' because more than 1 parameter was found and no one is parameterless.");
+
+                // There are just 1 constructor
+                else
+                {
+                    // Get the constructor
+                    ConstructorInfo constructor = constructors.Single();
+
+                    // Try to call the constructor with the given parameters
+                    try
+                    {
+                        // Invoke the constructor
+                        return (TRepository)constructor.Invoke(new object[] { repositoryOptions });
+                    }
+                    catch
+                    {
+                        throw new ArgumentException($"Cannot instantiate repository of type '{repositoryType}' because the given parameters does not match with {repositoryType} constructor parameters.");
+                    }
+                }
+            });
+
+            return this;
         }
 
         internal IEnumerable<IRepository> GetRepositories()
             => mRepositories;
+    }
+
+    /// <summary>
+    /// Extension methods to easily add built-in repositories
+    /// </summary>
+    public static class RepositoryBuilderExtensions
+    {
+        /// <summary>
+        /// Adds a new <see cref="MongoRepository{TEntity}"/>
+        /// </summary>
+        /// <typeparam name="TEntity">The entity type that will be stored.</typeparam>
+        /// <param name="builder">The current <see cref="RepositoryBuilder"/></param>
+        /// <param name="options">The options for the repository.</param>
+        public static RepositoryBuilder ImplementMongo<TEntity>(this RepositoryBuilder builder, MongoRepositoryOptions options)
+            where TEntity : IEntity
+        {
+            builder.Implement<MongoRepository<TEntity>, MongoRepositoryOptions>(options);
+
+            return builder;
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="EFRepository{TEntity, TContext}"/>
+        /// </summary>
+        /// <typeparam name="TEntity">The entity type that will be stored.</typeparam>
+        /// <typeparam name="TContext">The context type to be used.</typeparam>
+        /// <param name="builder">The current <see cref="RepositoryBuilder"/></param>
+        /// <param name="options">The repository options.</param>
+        /// <param name="dbContextOptionsAction">The DbContext options builder.</param>
+        public static RepositoryBuilder ImplementEntityFramework<TEntity, TContext>(this RepositoryBuilder builder, EFRepositoryOptions options, Action<DbContextOptionsBuilder> dbContextOptionsAction)
+            where TEntity : class, IEntity
+            where TContext : DbContext
+        {
+            // Inject the DbContext
+            builder.Services.AddDbContextPool<TContext>(dbContextOptionsAction);
+
+            // Implement the repository
+            builder.Implement<EFRepository<TEntity, TContext>, EFRepositoryOptions>(options);
+
+            return builder;
+        }
     }
 }
