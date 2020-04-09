@@ -16,15 +16,15 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.9.15</Version>
+    <Version>2.9.16</Version>
     <Authors>Tomas Wegenast</Authors>
     <Company>Tomas Wegenast</Company>
     <Product>Bramf</Product>
     <Description>Useful .NET cross-platform for projects</Description>
     <Copyright>Copyright 2019</Copyright>
-    <AssemblyVersion>2.9.15</AssemblyVersion>
+    <AssemblyVersion>2.9.16</AssemblyVersion>
     <PackageId>Bramf</PackageId>
-    <FileVersion>2.9.15</FileVersion>
+    <FileVersion>2.9.16</FileVersion>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/Tomi-15/Bramf</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Tomi-15/Bramf</RepositoryUrl>
@@ -52,6 +52,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.2" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.3" />
     <PackageReference Include="MvvmValidation" Version="3.1.0" />
     <PackageReference Include="MyLanguages.Core" Version="1.0.5" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
