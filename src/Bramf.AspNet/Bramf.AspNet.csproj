@@ -24,14 +24,14 @@
     <PackageProjectUrl>https://github.com/Tomi-15/Bramf</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Tomi-15/Bramf</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Version>1.5.4</Version>
-    <AssemblyVersion>1.5.4.0</AssemblyVersion>
+    <Version>1.5.5</Version>
+    <AssemblyVersion>1.5.5.0</AssemblyVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Copyright />
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bramf" Version="2.9.14" />
+    <PackageReference Include="Bramf" Version="2.9.16" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
