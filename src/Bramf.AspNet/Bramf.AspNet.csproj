@@ -24,8 +24,8 @@
     <PackageProjectUrl>https://github.com/Tomi-15/Bramf</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Tomi-15/Bramf</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Version>1.5.5</Version>
-    <AssemblyVersion>1.5.5.0</AssemblyVersion>
+    <Version>1.5.6</Version>
+    <AssemblyVersion>1.5.6.0</AssemblyVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Copyright />
   </PropertyGroup>
