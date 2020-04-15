@@ -1,7 +1,4 @@
-﻿using BLogg.Core.Logging;
-using Bramf.Configuration;
-using Bramf.Configuration.Abstractions;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -72,21 +69,6 @@ namespace Bramf
         }
 
         /// <summary>
-        /// Configures and inject a <see cref="IConfigurationEnvironment"/>
-        /// </summary>
-        /// <param name="construction">The construction to configure.</param>
-        /// <param name="factory">The action used to configure.</param>
-        public static FrameworkConstruction AddConfiguration(this FrameworkConstruction construction, Func<ConfigurationEnvBuilder> factory)
-        {
-            // Get configuration builder
-            var builder = factory.Invoke();
-
-            construction.Services.AddSingleton<IConfigurationEnvironment>(builder.Build());
-
-            return construction;
-        }
-
-        /// <summary>
         /// Injects all of the default services used by Dna Framework for a quicker and cleaner setup
         /// </summary>
         /// <param name="construction">The construction</param>
@@ -142,16 +124,6 @@ namespace Bramf
             construction.Services.AddSingleton<IExceptionHandler>(new BaseExceptionHandler());
 
             // Chain the construction
-            return construction;
-        }
-
-        /// <summary>
-        /// Adds a logger
-        /// </summary>
-        public static FrameworkConstruction AddLogger(this FrameworkConstruction construction, Logger logger)
-        {
-            construction.Services.AddSingleton<BLogg.Core.Logging.Base.ILogger>(logger);
-
             return construction;
         }
     }
