@@ -18,7 +18,7 @@ namespace Bramf.Extensions
         /// <returns>Returns the desired enum</returns>
         public static T ToEnum<T>(this string value, bool ignoreCase = true)
         {
-            T result = default;
+            T result;
 
             // Convert
             try
@@ -50,7 +50,7 @@ namespace Bramf.Extensions
                 return defaultValue;
 
             // Convert and return
-            return Enum.TryParse<T>(value, true, out T result) ? result : defaultValue;
+            return Enum.TryParse<T>(value, ignoreCase, out T result) ? result : defaultValue;
         }
 
         /// <summary>
@@ -77,10 +77,8 @@ namespace Bramf.Extensions
                 object[] attributes = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
 
                 if(attributes != null && attributes.Length > 0)
-                {
                     // Return the description value
                     return ((DescriptionAttribute)attributes[0]).Description;
-                }
             }
 
             // If we have no description attribute, just return the ToString of the enum

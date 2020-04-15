@@ -1,5 +1,4 @@
 ﻿using Bramf.App;
-using Bramf.Configuration.Abstractions;
 using Bramf.Controllers.Base;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,10 +51,5 @@ namespace Bramf
         /// Gets the application behaviour
         /// </summary>
         public static IAppBehaviour<IAppStorage> App => Framework.Provider.GetService<IAppBehaviour<IAppStorage>>();
-
-        /// <summary>
-        /// Gets the <see cref="IConfigurationEnvironment"/> injected
-        /// </summary>
-        public static IConfigurationEnvironment Configuration => Framework.Provider.GetService<IConfigurationEnvironment>();
     }
 }

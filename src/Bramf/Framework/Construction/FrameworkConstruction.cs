@@ -51,7 +51,7 @@ namespace Bramf
         /// <summary>
         /// The configuration used for the Dna.Framework
         /// </summary>
-         public IConfiguration Configuration { get; protected set; }
+        public IConfiguration Configuration { get; protected set; }
 
         #endregion
 

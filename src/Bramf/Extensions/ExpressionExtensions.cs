@@ -15,9 +15,7 @@ namespace Bramf.Extensions
         /// <typeparam name="T">The type of return value</typeparam>
         /// <param name="lamba">The expression to compile</param>
         public static T GetPropertyValue<T>(this Expression<Func<T>> lamba)
-        {
-            return lamba.Compile().Invoke();
-        }
+            => lamba.Compile().Invoke();
 
         /// <summary>
         /// Compiles an expression and gets the functions return value
@@ -27,9 +25,7 @@ namespace Bramf.Extensions
         /// <param name="lambda">The expression to compile</param>
         /// <param name="input">The input to the expression</param>
         public static T GetPropertyValue<In, T>(this Expression<Func<In, T>> lambda, In input)
-        {
-            return lambda.Compile().Invoke(input);
-        }
+            => lambda.Compile().Invoke(input);
 
         /// <summary>
         /// Sets the underlying properties value to the given value
@@ -49,7 +45,6 @@ namespace Bramf.Extensions
 
             // Set the property value
             propertyInfo.SetValue(target, value);
-
         }
 
         /// <summary>

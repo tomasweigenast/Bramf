@@ -62,7 +62,13 @@ namespace Bramf.Extensions
         public static int GetNumber(this IConfiguration configuration, string key)
             => Get<int>(configuration, key);
 
-        private static T Get<T>(IConfiguration configuration, string key)
+        /// <summary>
+        /// Gets a <typeparamref name="T"/> from the configuration
+        /// </summary>
+        /// <typeparam name="T">The object type to parse.</typeparam>
+        /// <param name="configuration">The configuration source.</param>
+        /// <param name="key">The key.</param>
+        private static T Get<T>(this IConfiguration configuration, string key)
         {
             string value = configuration[key];
             try

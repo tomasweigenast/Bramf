@@ -61,6 +61,5 @@ namespace Bramf.Extensions
 
             return areSame;
         }
-
     }
 }

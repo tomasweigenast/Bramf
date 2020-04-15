@@ -16,14 +16,22 @@ namespace Bramf.Extensions
         /// <param name="stream">The stream that contains the lines to read</param>
         public static IEnumerable<string> ReadAllLines(this Stream stream)
         {
-            using(var reader = new StreamReader(stream, Encoding.Unicode))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                    yield return line;
-            }
+            using var reader = new StreamReader(stream);
+            string line;
+            while ((line = reader.ReadLine()) != null)
+                yield return line;
+        }
 
-            stream.Close();
+        /// <summary>
+        /// Read all lines from a <see cref="Stream"/> asynchronously
+        /// </summary>
+        /// <param name="stream">The stream to read.</param>
+        public static async IAsyncEnumerable<string> ReadAllLinesAsync(this Stream stream)
+        {
+            using var reader = new StreamReader(stream);
+            string line;
+            while ((line = await reader.ReadLineAsync()) != null)
+                yield return line;
         }
 
         /// <summary>

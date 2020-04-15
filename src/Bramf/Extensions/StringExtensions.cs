@@ -65,43 +65,27 @@ namespace Bramf.Extensions
         /// Takes plain text and encode it to Base64
         /// </summary>
         /// <param name="plainText">Plain text to encode</param>
-        /// <param name="removeBase64Characters">If true, it will remove '=' and '+' characters from the final base64 string</param>
-        public static string ToBase64(this string plainText, bool removeBase64Characters = false)
+        public static string ToBase64(this string plainText)
         {
-            if (plainText.IsNullOrWhitespace()) return "";
-
-            // Encode
-            string base64 = "";
+            if (plainText.IsNullOrWhitespace())
+                throw new ArgumentNullException(nameof(plainText));
 
             try
             {
-                base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(plainText));
-
-                if (removeBase64Characters)
-                    base64 = base64.Replace("=", "").Replace("+", "").Replace("/", "");
+                return Convert.ToBase64String(Encoding.UTF8.GetBytes(plainText));
             }
             catch(Exception)
             {
                 throw;
             }
-
-            return base64;
         }
 
         /// <summary>
         /// Takes a byte array and encodes it using Base64
         /// </summary>
         /// <param name="bytes">The byte array to encode</param>
-        /// <param name="removeBase64Characters">If true, it will remove '=' and '+' characters from the final base64 string</param>
-        public static string ToBase64(this byte[] bytes, bool removeBase64Characters = false)
-        {
-            string decoded = Convert.ToBase64String(bytes);
-
-            if (removeBase64Characters)
-                decoded = decoded.Replace("+", "").Replace("=", "").Replace("/", "");
-
-            return decoded;
-        }
+        public static string ToBase64(this byte[] bytes)
+            => Convert.ToBase64String(bytes);
 
         /// <summary>
         /// Takes a Base64 encoded string and returns a byte array
@@ -115,18 +99,14 @@ namespace Bramf.Extensions
         /// <param name="base64Converted">Base64 encoded string</param>
         public static string FromBase64(this string base64Converted)
         {
-            // Decode
-            string plainText = "";
             try
             {
-                plainText = Encoding.UTF8.GetString(Convert.FromBase64String(base64Converted));
+                return Encoding.UTF8.GetString(Convert.FromBase64String(base64Converted));
             }
-            catch (Exception)
+            catch
             {
-                return "";
+                return null;
             }
-
-            return plainText;
         }
 
         /// <summary>
@@ -134,7 +114,7 @@ namespace Bramf.Extensions
         /// depending boolean value.
         /// </summary>
         /// <param name="boolean"></param>
-        /// <param name="culture">The culture to translate the text to. By default is es-ES</param>
+        /// <param name="culture">The culture to translate the text to.</param>
         public static string ToYesNo(this bool boolean, CultureInfo culture)
         {
             string text = string.Empty;
@@ -290,16 +270,31 @@ namespace Bramf.Extensions
         /// </summary>
         /// <param name="value">The string to truncate</param>
         /// <param name="maxChars">The max chars to show</param>
-        public static string Truncate(this string value, int maxChars) => value.Length <= maxChars ? value : value.Substring(0, maxChars) + "...";
+        public static string Truncate(this string value, int maxChars) 
+            => value.Length <= maxChars ? value : value.Substring(0, maxChars) + "...";
 
         /// <summary>
         /// Makes a string first letter upper case
         /// </summary>
         /// <param name="value">The input string</param>
-        public static string Title(this string value)
+        /// <param name="containWhitespace">Indicates if the string contains other words separated by whitespaces that must be uppercased too</param>
+        public static string Title(this string value, bool containWhitespace)
         {
             if (value == null)
-                return null;
+                throw new ArgumentNullException(nameof(value));
+
+            if (containWhitespace)
+            {
+                string[] strs = value.Split(' ');
+                if (strs.Length > 0)
+                {
+                    string[] finalString = new string[strs.Length];
+                    for (int i = 0; i < strs.Length; i++)
+                        finalString[i] = char.ToUpper(strs[i][0]) + strs[i].Substring(1);
+
+                    return string.Join(' ', finalString);
+                }
+            }
 
             if (value.Length > 1)
                 return char.ToUpper(value[0]) + value.Substring(1);

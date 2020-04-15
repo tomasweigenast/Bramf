@@ -5,21 +5,8 @@ using static Bramf.FrameworkDI;
 namespace Bramf
 {
     /// <summary>
-    /// The main entry point into the Dna Framework library
+    /// The main entry point into the Bramf library
     /// </summary>
-    /// <remarks>
-    /// <para>
-    ///     To use Framework you need to create a new <see cref="FrameworkConstruction"/>
-    ///     such as <see cref="DefaultFrameworkConstruction"/> and then add your services
-    ///     then finally <see cref="Framework.Build(FrameworkConstruction, bool)"/>. For example:
-    /// </para>
-    /// <code>
-    /// 
-    ///     // Create the default framework and build it
-    ///     Framework.Construct&lt;DefaultFrameworkConstruction&gt;().Build();
-    ///     
-    /// </code>
-    /// </remarks>
     public static class Framework
     {
         #region Public Properties

@@ -35,10 +35,7 @@ namespace Bramf
         /// <summary>
         /// Default constructor
         /// </summary>
-        public DefaultFrameworkEnvironment()
-        {
-
-        }
+        public DefaultFrameworkEnvironment() { }
 
         #endregion
     }
