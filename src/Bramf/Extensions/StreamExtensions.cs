@@ -16,12 +16,15 @@ namespace Bramf.Extensions
         /// <param name="stream">The stream that contains the lines to read</param>
         public static IEnumerable<string> ReadAllLines(this Stream stream)
         {
-            using var reader = new StreamReader(stream);
-            string line;
-            while ((line = reader.ReadLine()) != null)
-                yield return line;
+            using (var reader = new StreamReader(stream))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                    yield return line;
+            }
         }
 
+#if !NETFRAMEWORK
         /// <summary>
         /// Read all lines from a <see cref="Stream"/> asynchronously
         /// </summary>
@@ -33,6 +36,8 @@ namespace Bramf.Extensions
             while ((line = await reader.ReadLineAsync()) != null)
                 yield return line;
         }
+
+#endif
 
         /// <summary>
         /// Creates a <see cref="BinaryReader"/> from a <see cref="Stream"/>

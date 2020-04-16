@@ -13,11 +13,6 @@ namespace Bramf
     public static class FrameworkDI
     {
         /// <summary>
-        /// Gets the configuration
-        /// </summary>
-        //public static IConfiguration Configuration => Framework.Provider.GetService<IConfiguration>();
-
-        /// <summary>
         /// Gets the default logger
         /// </summary>
         public static ILogger Logger => Framework.Provider.GetService<ILogger>();

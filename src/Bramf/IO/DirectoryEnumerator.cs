@@ -177,9 +177,7 @@ namespace Bramf.IO
         /// <paramref name="path"/> is a null reference (Nothing in VB)
         /// </exception>
         public static IEnumerable<FileData> EnumerateFiles(string path)
-        {
-            return DirectoryEnumerator.EnumerateFiles(path, "*");
-        }
+            => EnumerateFiles(path, "*");
 
         /// <summary>
         /// Gets <see cref="FileData"/> for all the files in a directory that match a 
@@ -192,13 +190,8 @@ namespace Bramf.IO
         /// <exception cref="ArgumentNullException">
         /// <paramref name="path"/> is a null reference (Nothing in VB)
         /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="filter"/> is a null reference (Nothing in VB)
-        /// </exception>
         public static IEnumerable<FileData> EnumerateFiles(string path, string searchPattern)
-        {
-            return DirectoryEnumerator.EnumerateFiles(path, searchPattern, SearchOption.TopDirectoryOnly);
-        }
+            => EnumerateFiles(path, searchPattern, SearchOption.TopDirectoryOnly);
 
         /// <summary>
         /// Gets <see cref="FileData"/> for all the files in a directory that 
@@ -214,9 +207,6 @@ namespace Bramf.IO
         /// allows you to enumerate the files in the given directory.</returns>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="path"/> is a null reference (Nothing in VB)
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="filter"/> is a null reference (Nothing in VB)
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="searchOption"/> is not one of the valid values of the

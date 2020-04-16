@@ -17,7 +17,7 @@ namespace Bramf
         {
             // Log it
             // TODO: Localization of strings
-            Logger.LogCriticalSource("Unhandled exception occurred", exception: exception);
+            //Logger.LogCriticalSource("Unhandled exception occurred", exception: exception);
         }
     }
 }

@@ -292,7 +292,7 @@ namespace Bramf.Extensions
                     for (int i = 0; i < strs.Length; i++)
                         finalString[i] = char.ToUpper(strs[i][0]) + strs[i].Substring(1);
 
-                    return string.Join(' ', finalString);
+                    return string.Join(" ", finalString);
                 }
             }
 
@@ -302,6 +302,6 @@ namespace Bramf.Extensions
             return value.ToUpper();
         }
 
-        #endregion
+#endregion
     }
 }

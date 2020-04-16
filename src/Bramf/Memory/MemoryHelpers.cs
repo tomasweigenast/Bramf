@@ -33,7 +33,7 @@ namespace Bramf.Memory
         /// Gets the time (in milliseconds) that the system took to execute an action
         /// </summary>
         /// <param name="action">The action to execute</param>
-        public static string GetExecutionTime(this System.Action action)
+        public static string GetExecutionTime(this Action action)
         {
             // Start a new stopwatch
             var watcher = Stopwatch.StartNew();
