@@ -16,15 +16,15 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.9.17</Version>
+    <Version>2.9.18</Version>
     <Authors>Tomas Wegenast</Authors>
     <Company>Tomas Wegenast</Company>
     <Product>Bramf</Product>
     <Description>Useful .NET cross-platform for projects</Description>
     <Copyright>Copyright 2019</Copyright>
-    <AssemblyVersion>2.9.17</AssemblyVersion>
+    <AssemblyVersion>2.9.18</AssemblyVersion>
     <PackageId>Bramf</PackageId>
-    <FileVersion>2.9.17</FileVersion>
+    <FileVersion>2.9.18</FileVersion>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/Tomi-15/Bramf</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Tomi-15/Bramf</RepositoryUrl>

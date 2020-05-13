@@ -82,9 +82,11 @@ namespace Bramf.Collections
         /// Removes an item from the collection
         /// </summary>
         /// <param name="item">The item to remove</param>
-        public void RemoveItem(T item)
+        public new void Remove(T item)
         {
             CheckReentrancy();
+
+            int itemIndex = mItems.IndexOf(item);
 
             // Base class remove
             base.Remove(item);
@@ -92,14 +94,14 @@ namespace Bramf.Collections
             // Fire property changed events
             OnPropertyChanged(CountString);
             OnPropertyChanged(IndexerName);
-            OnCollectionChanged(NotifyCollectionChangedAction.Remove, item, mItems.IndexOf(item));
+            OnCollectionChanged(NotifyCollectionChangedAction.Remove, item, itemIndex);
         }
 
         /// <summary>
         /// Removes an item from the collection
         /// </summary>
         /// <param name="index">The index where the item is</param>
-        public void RemoveItem(int index)
+        public void RemoveAt(int index)
         {
             CheckReentrancy();
 
@@ -115,10 +117,16 @@ namespace Bramf.Collections
         }
 
         /// <summary>
+        /// Returns the index of an item
+        /// </summary>
+        /// <param name="item">The item to get its index</param>
+        public int IndexOf(T item) => mItems.IndexOf(item);
+
+        /// <summary>
         /// Adds an item to the collection
         /// </summary>
         /// <param name="item">The item to add</param>
-        public void AddItem(T item)
+        public new void Add(T item)
         {
             CheckReentrancy();
 
@@ -130,12 +138,6 @@ namespace Bramf.Collections
             OnPropertyChanged(IndexerName);
             OnCollectionChanged(NotifyCollectionChangedAction.Add, item, mItems.IndexOf(item));
         }
-
-        /// <summary>
-        /// Returns the index of an item
-        /// </summary>
-        /// <param name="item">The item to get its index</param>
-        public int IndexOf(T item) => mItems.IndexOf(item);
 
         #endregion
 
