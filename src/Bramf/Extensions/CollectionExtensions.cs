@@ -42,17 +42,6 @@ namespace Bramf.Extensions
         }
 
         /// <summary>
-        /// Paginates a <see cref="IList{T}"/> a simple way.
-        /// To get better results, use instead <see cref="PaginatedList{T}"/>
-        /// </summary>
-        /// <typeparam name="T">The type of object that collection has</typeparam>
-        /// <param name="list">The <see cref="IList{T}"/> to paginate</param>
-        /// <param name="page">The page index to get</param>
-        /// <param name="pageSize">The amount of items to show per page</param>
-        public static IList<T> Paginate<T>(this IList<T> list, int page, int pageSize)
-            => list.Skip(page * pageSize).Take(pageSize).ToList();
-
-        /// <summary>
         /// Takes an <see cref="IEnumerable{T}"/> and sorts it depending on a <see cref="IComparer{T}"/>
         /// </summary>
         /// <typeparam name="T">The type of object to sort</typeparam>

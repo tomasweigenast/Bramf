@@ -48,18 +48,14 @@ namespace Bramf.Extensions
         /// </summary>
         /// <param name="value">The string</param>
         public static bool IsNullOrWhitespace(this string value)
-        {
-            return string.IsNullOrWhiteSpace(value);
-        }
+            => string.IsNullOrWhiteSpace(value);
 
         /// <summary>
         /// Indicates whatever a string is null or empty
         /// </summary>
         /// <param name="value">The string</param>
         public static bool IsNullOrEmpty(this string value)
-        {
-            return string.IsNullOrEmpty(value);
-        }
+            => string.IsNullOrEmpty(value);
 
         /// <summary>
         /// Takes plain text and encode it to Base64
@@ -187,7 +183,7 @@ namespace Bramf.Extensions
         /// <param name="str">The source string</param>
         /// <param name="value">The value to search for and extract to end</param>
         public static string ExtractString(this string str, string value)
-            => str.Substring(str.IndexOf(value) + value.Length);
+            => str[(str.IndexOf(value) + value.Length)..];
 
         /// <summary>
         /// Extracts a substring from a starting string index to the specified end index

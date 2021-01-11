@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the algoriths for the encryptation
     /// </summary>
-    public enum CryptoAlgorithm
+    public enum EncryptationAlgorithm
     {
         /// <summary>
         /// The AES managed encryptation

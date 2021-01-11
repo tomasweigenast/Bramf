@@ -10,7 +10,8 @@ namespace Bramf.Extensions
     public static class EnumExtensions
     {
         /// <summary>
-        /// Converts a <see cref="string"/> to specific enum
+        /// Converts a <see cref="string"/> to specific enum. Throws an exception
+        /// if the enum could not be parsed.
         /// </summary>
         /// <typeparam name="T">The type of enum to convert to</typeparam>
         /// <param name="value">The string value to converter</param>

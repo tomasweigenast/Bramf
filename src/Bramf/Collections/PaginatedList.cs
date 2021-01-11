@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,24 +13,24 @@ namespace Bramf.Collections
         #region Public Properties
 
         /// <summary>
-        /// The current page index
+        /// The current page
         /// </summary>
-        public int PageIndex { get; private set; }
-
-        /// <summary>
-        /// The total pages count
-        /// </summary>
-        public int TotalPages { get; private set; }
+        public int CurrentPage { get; }
 
         /// <summary>
         /// A boolean that indicates if we have a previous page
         /// </summary>
-        public bool HasPreviousPage => PageIndex > 1;
+        public bool HasPreviousPage => CurrentPage > 1;
 
         /// <summary>
         /// A boolean that indicates if we have next pages
         /// </summary>
-        public bool HasNextPage => PageIndex < TotalPages;
+        public bool HasNextPage { get; }
+
+        /// <summary>
+        /// The page size
+        /// </summary>
+        public int PageSize { get; }
 
         #endregion
 
@@ -40,11 +39,11 @@ namespace Bramf.Collections
         /// <summary>
         /// Default constructor
         /// </summary>
-        public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
+        public PaginatedList(List<T> items, int pageIndex, int pageSize)
         {
-            // Calculate values
-            PageIndex = pageIndex;
-            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            PageSize = pageSize;
+            CurrentPage = pageIndex;
+            HasNextPage = items.Count == pageSize;
 
             // Add the items to the list collection
             AddRange(items);
@@ -55,23 +54,61 @@ namespace Bramf.Collections
         #region Methods
 
         /// <summary>
-        /// Creates a new <see cref="PaginatedList{T}"/>
+        /// Creates a new <see cref="PaginatedList{T}"/> paging asynchronously the results
+        /// of an <see cref="IQueryable{T}"/>
         /// </summary>
         /// <param name="source">The items source</param>
-        /// <param name="pageIndex">The page index</param>
+        /// <param name="page">The page index</param>
         /// <param name="pageSize">The size of each pages</param>
-        public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
+        public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int page, int pageSize)
         {
-            // Get the amount of items the source has
-            var count = await source.CountAsync();
-
             // Get items following pagination
-            var items = await source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            List<T> items = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
             // Return the created paginated list
-            return new PaginatedList<T>(items, count, pageIndex, pageSize);
+            return new PaginatedList<T>(items, page, pageSize);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="PaginatedList{T}"/> paging the results
+        /// of an <see cref="IEnumerable{T}"/>
+        /// </summary>
+        /// <param name="source">The items source</param>
+        /// <param name="page">The page index</param>
+        /// <param name="pageSize">The size of each pages</param>
+        public static PaginatedList<T> Create(IEnumerable<T> source, int page, int pageSize)
+        {
+            // Get items following pagination
+            List<T> items = source.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            // Return the created paginated list
+            return new PaginatedList<T>(items, page, pageSize);
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// Extension methods to create <see cref="PaginatedList{T}"/>s 
+    /// </summary>
+    public static class PaginatedListExtensions
+    {
+        /// <summary>
+        /// Paginates the result of an <see cref="IQueryable{T}"/>
+        /// </summary>
+        /// <param name="source">The items source</param>
+        /// <param name="page">The page index</param>
+        /// <param name="pageSize">The size of each pages</param>
+        public static Task<PaginatedList<T>> PaginateAsync<T>(this IQueryable<T> source, int page, int pageSize)
+            => PaginatedList<T>.CreateAsync(source, page, pageSize);
+
+        /// <summary>
+        /// Paginates the result of an <see cref="IEnumerable{T}"/>
+        /// </summary>
+        /// <param name="source">The items source</param>
+        /// <param name="page">The page index</param>
+        /// <param name="pageSize">The size of each pages</param>
+        public static PaginatedList<T> Paginate<T>(this IEnumerable<T> source, int page, int pageSize)
+            => PaginatedList<T>.Create(source, page, pageSize);
     }
 }

@@ -5,12 +5,12 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Bramf.Encryptation
+namespace Bramf.Crypto
 {
     /// <summary>
     /// Provides methods to encrypt and hash strings
     /// </summary>
-    public static class Crypto
+    public static class Encryptation
     {
         #region Constants
 
